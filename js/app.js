@@ -1272,13 +1272,13 @@ function init(){
   createPlane();
 	
 	// House creation
-	createHouse();
-	createRoof();
-	createDoor();
-	createWindows();
-	createSmoke();
-	// createFlowers();
-	createRoad();
+	// createHouse();
+	// createRoof();
+	// createDoor();
+	// createWindows();
+	// createSmoke();
+	// // createFlowers();
+	// createRoad();
 
 	// SpongeBob creation
   createBody();
@@ -1302,7 +1302,7 @@ function init(){
 	createSmile();
 	//createWitch_hat();
 
-	createGhost();
+	// createGhost();
 
 	// Create Garry
 	createShell();
