@@ -8,9 +8,7 @@ import Stats from './libs/stats.module.js';
 import { OrbitControls } from './controls/OrbitControls.js';
 import { GUI } from './libs/lil-gui.module.min.js'; //lib for control menu
 import TWEEN from './libs/tween.module.js';
-import { createMultiMaterialObject } from './utils/SceneUtils.js';
 import { GLTFLoader } from './loaders/GLTFLoader.js';
-// import { FBXLoader } from './loaders/FBXLoader.js';
 
 const mainContainer = document.getElementById('webgl-scene');
 const fpsContainer = document.getElementById('fps');
@@ -25,10 +23,6 @@ let wheel_pant1, wheel_pant2, eye1, eye2, eye1_blue, eye2_blue, eye1_black, eye2
 let smile, tie_sphere, tie_conus1, tie_conus2, tooth1, tooth2, sphere_boot1, sphere_boot2, sphere_boot3, sphere_boot4, box_boot1, box_boot2, eye_brow1, eye_brow2, eye_brow3, eye_brow4, eye_brow5, eye_brow6, belt1, belt2, belt3, shirt_plane1, shirt_plane2 = null;
 
 let shell, body_gary, eye_capsule1, eye_capsule2, gary_eye1, gary_eye2, gary_eye_red1, gary_eye_red2, gary_eye_black1, gary_eye_black2, gary_smile = null;
-
-let cylinder_hat, bottom_hat, rope_hat, rope_hat_torus1, rope_hat_torus2, ghost= null;
-
-let witch_hat= new THREE.Group();
 
 let right_hand= new THREE.Group();
 
@@ -189,7 +183,7 @@ function createPlane(){
 	texture.wrapS = THREE.RepeatWrapping;
 	texture.wrapT = THREE.RepeatWrapping;
 	texture.repeat.set(4, 4);
-	const geometry = new THREE.PlaneGeometry(520, 520); //100, 80
+	const geometry = new THREE.PlaneGeometry(300, 300); //100, 80
 	const material =  new THREE.MeshStandardMaterial({map: texture, side: THREE.DoubleSide});
 	plane = new THREE.Mesh(geometry, material);
 	plane.rotation.x = -0.5*Math.PI;
@@ -922,75 +916,14 @@ function gary(){
 		garyPosition: 0,
 		garyRotation: 0
 	};
-	let tween = new TWEEN.Tween(gary_character.position).to({x : -50}, 1500);
+	let tween = new TWEEN.Tween(gary_character.position).to({x : -25}, 1200);
 	tween.easing(TWEEN.Easing.Quadratic.InOut);
 	tween.delay(1000);
 	tween.yoyo(true);
 	tween.repeat(Infinity);
-	// tween.onUpdate(() => {
-	// 	gary_character.position.x -= 0.05;
-	// });
-	// tween.repeat(Infinity);
-	
-	// let tween2 = new TWEEN.Tween(gary_character.position).to({z : -30}, 1500);
-	// tween2.easing(TWEEN.Easing.Quadratic.InOut);
-
-	// let tween3 = new TWEEN.Tween(gary_character.position).to({x : 20}, 1500);
-	// tween3.easing(TWEEN.Easing.Quadratic.InOut);
-
-	// let tween4 = new TWEEN.Tween(gary_character.position).to({z : 15}, 1500);
-	// tween4.easing(TWEEN.Easing.Quadratic.InOut);
-
-	// tween2.repeat(Infinity);
-	// tween.chain(tween2);
-	// tween2.chain(tween3);
-	// tween3.chain(tween4);
-	// tween4.chain(tween);
 	tween.start();
 }
 
-function createWitch_hat(){
-	const geometry_1= new THREE.CylinderGeometry(15,15, 3, 64, 64);
-	const material = new THREE.MeshLambertMaterial({color : 0x1d1f20});
-	bottom_hat = new THREE.Mesh(geometry_1, material);
-	bottom_hat.receiveShadow = true;
-	bottom_hat.castShadow = true;
-	bottom_hat.position.set(0,31,0);
-
-	const geometry_2 = new THREE.CylinderGeometry(1, 10, 20, 64, 64)
-	cylinder_hat= new THREE.Mesh(geometry_2, material);
-	cylinder_hat.receiveShadow = true;
-	cylinder_hat.castShadow = true;
-	cylinder_hat.position.set(0, 40, 0);
-
-	const geometry_3 = new THREE.TorusGeometry(7, 1.7, 30, 200);
-	const material_rope= new THREE.MeshLambertMaterial({color : 0x6c008a});
-	rope_hat = new THREE.Mesh(geometry_3, material_rope);
-	rope_hat.receiveShadow = true;
-	rope_hat.castShadow = true;
-	rope_hat.rotateX(Math.PI/2);
-	rope_hat.position.set(0, 33, 0);
-
-	const geometry_4 = new THREE.TorusGeometry(1, 0.5, 30, 200);
-	rope_hat_torus1= new THREE.Mesh(geometry_4, material_rope);
-	rope_hat_torus1.receiveShadow = true;
-	rope_hat_torus1.castShadow= true;
-	rope_hat_torus1.rotateX(-Math.PI/7);
-	rope_hat_torus1.position.set(-1, 34, 8.8);
-
-	rope_hat_torus2= new THREE.Mesh(geometry_4, material_rope);
-	rope_hat_torus2.receiveShadow = true;
-	rope_hat_torus2.castShadow= true;
-	rope_hat_torus2.rotateX(-Math.PI/7);
-	rope_hat_torus2.position.set(1, 34, 8.8);
-
-	witch_hat.add(bottom_hat);
-	witch_hat.add(cylinder_hat);
-	witch_hat.add(rope_hat);
-	witch_hat.add(rope_hat_torus1);
-	witch_hat.add(rope_hat_torus2);
-	scene.add(witch_hat);
-}
 
 class Krab{
 	createKrab(){
@@ -1012,7 +945,7 @@ class Krab{
 				action_krab.setDuration(2);
 				// action_krab.play();
 
-				krab.position.set(175, 18.2, 0);
+				krab.position.set(70, 18.2, 0);
 				scene.add(krab);
 	
 				krab.add(model);
@@ -1144,33 +1077,6 @@ class JellyFish{
 	}
 }
 
-function createRock(heightPrec){
-	const spline = new THREE.SplineCurve ([
-		new THREE.Vector2( 6, 0),
-		new THREE.Vector2( 5, 1),
-		new THREE.Vector2( 4, 2),
-		new THREE.Vector2( 4, 4),
-		new THREE.Vector2( 3, 4),
-		new THREE.Vector2( 3, 6),
-		new THREE.Vector2( 3, 7)
-	]);
-	const vertices = spline.getPoints( heightPrec );
-
-	const latheGeom = new THREE.LatheGeometry(vertices);
-	
-	const materials = [
-		new THREE.MeshPhongMaterial( { opacity:0.8, color: 0x7f858a, transparent:true, side:THREE.DoubleSide} ),
-		new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } )
-	];
-
-	let mesh = createMultiMaterialObject(latheGeom,materials);
-	mesh.children.forEach(function(e) {
-		e.castShadow=true;
-	});
-
-	return mesh;
-}
-
 function createChristmas_hat(){
 	const loader = new GLTFLoader();
 	loader.load('./models/christmas_hat/scene.gltf',
@@ -1199,36 +1105,14 @@ function createChristmas_hat(){
 	);
 }
 
-let moveStep= 0;
-let rotateStep=0;
-let bounceStep = 0;
-let cameraStep = 0;
-let gary_speed= 0;
 
 //control menu
 function createMenu(){
-	// menu.add(menuParams, 'rotationSpeed').min(10).max(100).step(1).name('Rotation speed');
-	menu.add(menuParams, 'ghostPosX').min(-10).max(10).step(0.1).name('Ghost position X').onChange( value => {
-		ghost.position.x = menuParams.ghostPosX;
-	} );
-	menu.add(menuParams, 'ghost_size').min(50).max(100).step(1).name("Size of the ghost").onChange(value =>{
-		ghost.scale.set(menuParams.ghost_size, menuParams.ghost_size,1);
-		ghost.position.set(-50, menuParams.ghost_size - 30, -50);
-	});
-	// menu.add(ctrl, 'numofJelly').name("Number of jelly fishes").listen();
-	// menu.add(ctrl, 'addJelly').name("Add jelly");
-	// menu.add(ctrl, 'removeJelly').name("Remove jelly");
-	// menu.add(ctrl, 'showObjectsInfo').name("Show info");
 	menu.add(ctrl_2, 'change_animation').name("Animation On/Off");
 }
 
 // Animations
 function update(){
-	// witch hat animation
-	// if (typeof witch_hat !== 'undefined'){
-	// 	rotateStep -= menuParams.rotationSpeed/10000;
-	// 	witch_hat.rotation.y=rotateStep;
-	// }
 
 	// mr krabs animation
 	const delta = clock.getDelta();
@@ -1236,18 +1120,6 @@ function update(){
 		mixer.update(delta);
 	}
 
-	// ghost animation
-	if (typeof ghost !== 'undefined'){
-		if (moveStep < 800){
-			ghost.position.y+=0.1;
-			moveStep++;
-		} else if (moveStep < 1600){
-			ghost.position.y-=0.1
-			moveStep++;
-		} else{
-			moveStep = 0;
-		}
-	}
 	TWEEN.update();
 }
 
@@ -1321,11 +1193,6 @@ function init(){
 	ctrl_2 = new Krab();
 	ctrl_2.createKrab();
 
-	let rock = createRock(24);
-	rock.position.set(192, 136, -60)
-	rock.name = "rock";
-	scene.add(rock);
-	
 	createSound();
 
 	createMenu();
